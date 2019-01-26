@@ -14,8 +14,8 @@ You will also see any lint errors in the console.
 
 ### `npm run server`
 
-Make sure mongoDB database is running on port 27017 in the localhost.
-Express server will be run at http:localhost:8080.
+Make sure mongoDB database is running on port 27017 in the localhost.   
+Express server will be run at http://localhost:8080.
 
 
 
