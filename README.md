@@ -1,21 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Run the app
 
-In the project directory, you can run:
+1. npm install
+2. npm start
+3. npm run server
 
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm run server`
-
-Make sure mongoDB database is running on port 27017 in the localhost.   
-Express server will be run at http://localhost:8080.
-
+The app will run at http://localhost:3000
 
 
