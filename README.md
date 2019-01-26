@@ -6,6 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. npm start
 3. npm run server
 
-The app will run at http://localhost:3000
+Make sure mongoDB database is running on port 27017 before starting the server.   
+The react app will run at http://localhost:3000
 
 
