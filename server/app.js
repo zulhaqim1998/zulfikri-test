@@ -12,14 +12,14 @@ const port = process.env.PORT || 8080;
 
 const storage = multer.diskStorage({
     destination: "./server/files/",
-    filename: function(req, file, cb){
+    filename: function (req, file, cb) {
         cb(null, file.originalname);
     }
 });
 
 const upload = multer({
     storage: storage,
-    limits:{fileSize: 1000000},
+    limits: {fileSize: 1000000},
 }).single("myFile");
 
 app.use(bodyParser.json());
@@ -35,51 +35,51 @@ mongoose.connection.on("connected", () => console.log("Database connected."));
 mongoose.connection.on("error", () => console.log("Error connecting to database."));
 
 app.get("/check-user/:username", (req, res) => {
-  const {username} = req.params;
+    const {username} = req.params;
     User.find({username}, (err, user) => {
-      if(user.length) {
-        res.json({isExist: true});
-      } else {
-        res.json({isExist: false});
-      }
+        if (user.length) {
+            res.json({isExist: true});
+        } else {
+            res.json({isExist: false});
+        }
     });
 });
 
 app.get("/:username/files", (req, res) => {
-  const {username} = req.params;
-  User.findOne({username}).select("files").exec((err, user) => {
-    res.json({data: user});
-  });
+    const {username} = req.params;
+    User.findOne({username}).select("files").exec((err, user) => {
+        res.json({data: user});
+    });
 });
 
 app.get("/download/:filename(*)", (req, res) => {
-  const {filename} = req.params;
-  const fileLocation = path.join(__dirname, "files", filename);
+    const {filename} = req.params;
+    const fileLocation = path.join(__dirname, "files", filename);
 
-  console.log("Downloading from " + fileLocation);
-  res.download(fileLocation, filename, err => {
-    if(err) {
-      return console.log(err);
-    }
-  });
+    console.log("Downloading from " + fileLocation);
+    res.download(fileLocation, filename, err => {
+        if (err) {
+            return console.log(err);
+        }
+    });
 });
 
 app.get("/new-user/:username", (req, res) => {
     const {username} = req.params;
 
     User.findOne({username}, (err, user) => {
-        if(err) {
-          return res.json({error: err});
+        if (err) {
+            return res.json({error: err});
         }
-        if(user) {
+        if (user) {
             return res.json({message: "User already exist"});
         }
         const newUser = User({username});
         newUser.save(err => {
-          if(err) {
-            return res.json({error: err})
-          }
-          return res.json({message: "New user created"});
+            if (err) {
+                return res.json({error: err})
+            }
+            return res.json({message: "New user created"});
         });
 
     });
@@ -87,25 +87,24 @@ app.get("/new-user/:username", (req, res) => {
 
 app.post("/upload/:username", (req, res) => {
     upload(req, res, (err) => {
-    if(!err) {
-        const {username} = req.params;
+        if (!err) {
+            const {username} = req.params;
 
-        User.findOne({username: username}, (err, user) => {
-            if(err) {
-                return console.log("User not found.")
-            }
-            user.files.push({filename: req.file.originalname});
-            user.save((err) => {
-              res.json({status: "Success"});
+            User.findOne({username: username}, (err, user) => {
+                if (err) {
+                    return console.log("User not found.")
+                }
+                user.files.push({filename: req.file.originalname});
+                user.save((err) => {
+                    res.json({status: "Success"});
+                });
             });
-        });
-    }
-    else {
-        res.json({status: "Failed"});
-    }
+        } else {
+            res.json({status: "Failed"});
+        }
     });
 });
 
-app.listen(port, function() {
-    console.log('Our app is running on http://localhost:' + port);
+app.listen(port, function () {
+    console.log('Server is running on http://localhost:' + port);
 });
